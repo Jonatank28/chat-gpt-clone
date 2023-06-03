@@ -16,16 +16,16 @@ const SideBar = ({ open, onClose, onNewChat, onClick, children }: Props) => {
         <section
             className={`fixed left-0 top-0 bottom-0 bg-slate-500 ${
                 open ? 'w-screen' : ''
-            } md:w-64`}
+            } md:w-64 md:static `}
         >
             <div
                 className={`
                 transition-all duration-300 ease-in-out
                 md:transition-none md:duration-0 md:ease-in-out
             ${open ? 'ml-0' : '-ml-96'}
-            w-64 bg-gray-900 h-screen p-2 flex flex-col justify-between relative md:w-64 md:ml-0`}
+            w-64 bg-[#202123] h-screen p-2 flex flex-col justify-between relative md:w-64 md:ml-0`}
             >
-                <div>
+                <div className="cursor-pointer">
                     <IconClose
                         height={25}
                         width={25}
@@ -35,8 +35,8 @@ const SideBar = ({ open, onClose, onNewChat, onClick, children }: Props) => {
                 </div>
                 <div className="flex items-center p-2 border border-gray-200/20 rounded-md cursor-pointer hover:bg-gray-500/10">
                     <IconAdd
-                        width={22}
-                        height={22}
+                        width={19}
+                        height={19}
                         onClick={onNewChat}
                         className="mr-2"
                     />{' '}

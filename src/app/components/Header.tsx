@@ -9,11 +9,14 @@ type Props = {
 const Header = ({ onOpenSideBar, onNewChat }: Props) => {
     return (
         <header className="w-full flex items-center justify-between p-4 border-b border-gray-500 md:hidden">
-            <div onClick={onOpenSideBar}>
+            <div onClick={onOpenSideBar} className="cursor-pointer">
                 <IconHamburgerMenu width={22} height={22} />
             </div>
-            <div>Aki vai a conversa</div>
-            <div onClick={onNewChat}>
+            <div className="truncate mx-2">
+                Aki vai a
+                conversaghgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+            </div>
+            <div onClick={onNewChat} className="cursor-pointer">
                 <IconAdd width={22} height={22} />
             </div>
         </header>
