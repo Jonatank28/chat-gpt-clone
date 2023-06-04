@@ -1,4 +1,5 @@
 import { Chat } from '../types/Chat'
+import ChatMessageItem from './ChatMessageItem'
 import ChatPlaceholder from './ChatPlaceholder'
 
 type Props = {
@@ -9,7 +10,10 @@ const ChatArea = ({ chat }: Props) => {
     return (
         <section className="flex-auto h-0 overflow-y-auto">
             {!chat && <ChatPlaceholder />}
-            {chat && chat.messages.map((item) => <h1>chatdddd</h1>)}
+            {chat &&
+                chat.messages.map((item) => (
+                    <ChatMessageItem key={item.id} item={item} />
+                ))}
         </section>
     )
 }

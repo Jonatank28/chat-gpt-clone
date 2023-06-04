@@ -6,9 +6,9 @@ type Props = {}
 
 const ChatPlaceholder = ({}: Props) => {
     return (
-        <div className="flex flex-col justify-center items-center pb-0 md:pb-52 h-screen overscroll-auto">
-            <h3 className="text-3xl font-bold mb-14 mt-10 z-0">ChatGPT</h3>
-            <div className="flex gap-4 flex-col md:flex-row justify-center">
+        <div className="flex flex-col justify-center items-center md:pb-52 h-screen ">
+            <h3 className="text-3xl font-bold mb-14 mt-10">ChatGPT</h3>
+            <div className="flex gap-6 flex-col md:flex-row justify-center pb-4">
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-row md:flex-col items-center justify-center gap-2">
                         <IconSun width={22} height={22} />
