@@ -33,7 +33,10 @@ const SideBar = ({ open, onClose, onNewChat, onClick, children }: Props) => {
                         className="absolute top-4 -right-7 md:hidden"
                     />
                 </div>
-                <div className="flex items-center p-2 border border-gray-200/20 rounded-md cursor-pointer hover:bg-gray-500/10">
+                <div
+                    onClick={onNewChat}
+                    className="flex items-center p-2 border border-gray-200/20 rounded-md cursor-pointer hover:bg-gray-500/10"
+                >
                     <IconAdd
                         width={19}
                         height={19}

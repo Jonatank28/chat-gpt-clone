@@ -1,5 +1,6 @@
 'use client'
-import { useState } from 'react'
+import { use, useEffect, useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 import SideBar from './components/SideBar'
 import Header from './components/Header'
 import ChatArea from './components/ChatArea'
@@ -9,32 +10,35 @@ import Footer from './components/Footer'
 const Page = () => {
     const [openSideBar, setOpenSideBar] = useState(false)
     const [AILoading, setAILoading] = useState(false)
-    const [chatActive, setChatActive] = useState<Chat>({
-        id: '1',
-        title: 'teste',
-        messages: [
-            {
-                id: '4',
-                author: 'me',
-                body: 'Como chegar a lua',
-            },
-            {
-                id: '5',
-                author: 'ai',
-                body: 'Contrua uma espaçonave',
-            },
-            {
-                id: '6',
-                author: 'me',
-                body: 'Como chegar a lua',
-            },
-            {
-                id: '7',
-                author: 'ai',
-                body: 'Contrua uma espaçonave',
-            },
-        ],
-    })
+    const [chatList, setChatList] = useState<Chat[]>([])
+    const [chatActiveId, setChatActiveId] = useState<string>('')
+    const [chatActive, setChatActive] = useState<Chat>()
+
+    useEffect(() => {
+        setChatActive(chatList.find((chat) => chat.id === chatActiveId))
+    }, [chatActiveId, chatList])
+
+    useEffect(() => {
+        if (AILoading) getAIResponse()
+    }, [AILoading])
+
+    const getAIResponse = async () => {
+        setTimeout(() => {
+            let chatListClone = [...chatList]
+            let chatIndex = chatListClone.findIndex(
+                (chat) => chat.id === chatActiveId
+            )
+            if (chatIndex > -1) {
+                chatListClone[chatIndex].messages.push({
+                    id: uuidv4(),
+                    author: 'ai',
+                    body: 'Essa é uma resposta da ai',
+                })
+            }
+            setChatList(chatListClone)
+            setAILoading(false)
+        }, 2000)
+    }
 
     const handleCloseSideBar = () => {
         setOpenSideBar(false)
@@ -44,11 +48,46 @@ const Page = () => {
         setOpenSideBar(true)
     }
 
-    const handleNewChat = () => {}
+    const handleClearConversations = () => {
+        if (AILoading) return
+        setChatActiveId('')
+        setChatList([])
+    }
 
-    const handleDeleteAllChat = () => {}
+    const handleNewChat = () => {
+        if (AILoading) return
+        setChatActiveId('')
+        handleCloseSideBar()
+    }
 
-    const handleSendMessage = () => {}
+    const handleSendMessage = (message: string) => {
+        if (!chatActiveId) {
+            // New chat
+            let newChatId = uuidv4()
+            setChatList([
+                {
+                    id: newChatId,
+                    title: message,
+                    messages: [{ id: uuidv4(), author: 'me', body: message }],
+                },
+                ...chatList,
+            ])
+            setChatActiveId(newChatId)
+        } else {
+            // Update existing chat
+            let chatListCLone = [...chatList]
+            let chatIndex = chatListCLone.findIndex(
+                (item) => item.id === chatActiveId
+            )
+            chatListCLone[chatIndex].messages.push({
+                id: uuidv4(),
+                author: 'me',
+                body: message,
+            })
+            setChatList(chatListCLone)
+        }
+        setAILoading(true)
+    }
 
     return (
         <main className="flex min-h-screen bg-grayDark">
@@ -56,7 +95,7 @@ const Page = () => {
                 open={openSideBar}
                 onClose={handleCloseSideBar}
                 onNewChat={handleNewChat}
-                onClick={handleDeleteAllChat}
+                onClick={handleClearConversations}
             >
                 ...
             </SideBar>
@@ -65,7 +104,7 @@ const Page = () => {
                     onOpenSideBar={handleOpenSideBar}
                     onNewChat={handleNewChat}
                 />
-                <ChatArea chat={chatActive} />
+                <ChatArea chat={chatActive} loading={AILoading} />
                 <Footer
                     onSendMessage={handleSendMessage}
                     disabled={AILoading}

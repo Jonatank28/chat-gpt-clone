@@ -9,7 +9,7 @@ type Props = {
 const Footer = ({ onSendMessage, disabled }: Props) => {
     return (
         <div className="flex justify-center items-center w-full pb-2">
-            <div className="w-[1100px] flex flex-col items-center justify-center">
+            <div className="w-[1200px] flex flex-col items-center justify-center">
                 <div className="w-[97vw] md:w-3/4 mx-auto ">
                     <ChatMessageInput
                         onSendMessage={onSendMessage}
