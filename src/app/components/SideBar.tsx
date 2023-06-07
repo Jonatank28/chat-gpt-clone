@@ -14,7 +14,7 @@ type Props = {
 const SideBar = ({ open, onClose, onNewChat, onClick, children }: Props) => {
     return (
         <section
-            className={`fixed left-0 top-0 bottom-0 bg-slate-500 ${
+            className={`z-50 fixed left-0 top-0 bottom-0 bg-slate-500 ${
                 open ? 'w-screen' : ''
             } md:w-64 md:static `}
         >

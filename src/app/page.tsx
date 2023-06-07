@@ -6,6 +6,7 @@ import Header from './components/Header'
 import ChatArea from './components/ChatArea'
 import { Chat } from './types/Chat'
 import Footer from './components/Footer'
+import SideBarChatButton from './components/SideBarChatButton'
 
 const Page = () => {
     const [openSideBar, setOpenSideBar] = useState(false)
@@ -59,6 +60,33 @@ const Page = () => {
         setChatActiveId('')
         handleCloseSideBar()
     }
+    console.log('ia', AILoading)
+
+    const handleSelectChat = (id: string) => {
+        // if (AILoading == false) {
+        //     return
+        // }
+        // console.log('item')
+
+        let item = chatList.find((item) => item.id === id)
+        if (item) setChatActiveId(item.id)
+        handleCloseSideBar()
+    }
+
+    const handleDeleteChat = (id: string) => {
+        let chatListClone = [...chatList]
+        let chatIndex = chatListClone.findIndex((item) => (item.id = id))
+        chatListClone.splice(chatIndex, 1)
+        setChatList(chatListClone)
+        setChatActiveId('')
+    }
+
+    const handleEditChat = (id: string, newTitle: string) => {
+        let chatListClone = [...chatList]
+        let chatIndex = chatListClone.findIndex((item) => (item.id = id))
+        chatListClone[chatIndex].title = newTitle
+        setChatList(chatListClone)
+    }
 
     const handleSendMessage = (message: string) => {
         if (!chatActiveId) {
@@ -97,12 +125,22 @@ const Page = () => {
                 onNewChat={handleNewChat}
                 onClick={handleClearConversations}
             >
-                ...
+                {chatList.map((item) => (
+                    <SideBarChatButton
+                        key={item.id}
+                        chatItem={item}
+                        active={item.id === chatActiveId}
+                        onClick={handleSelectChat}
+                        onDelete={handleDeleteChat}
+                        onEdit={handleEditChat}
+                    />
+                ))}
             </SideBar>
             <section className="flex flex-col w-full">
                 <Header
                     onOpenSideBar={handleOpenSideBar}
                     onNewChat={handleNewChat}
+                    title={chatActive ? chatActive.title : 'Novo chat'}
                 />
                 <ChatArea chat={chatActive} loading={AILoading} />
                 <Footer
